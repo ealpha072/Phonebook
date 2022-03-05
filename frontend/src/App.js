@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import Hearder from './components/Header'
 import { getAll, create, deletePerson, update } from './services/contact'
-import {Search, Form, Person} from './components/Body'
+import {Search, Form, Person, Notification} from './components/Body'
 
 const App = () => {
     const [contacts, setContacts] = useState([])
@@ -9,6 +9,7 @@ const App = () => {
     const [newName, setName] = useState('')
     const [newNumber, setNumber] = useState('')
     const [searchValue, setSearchValue] = useState('')
+    const [error, setError] = useState('')
 
     useEffect(()=>{
         getAll().then(res => 
@@ -43,10 +44,10 @@ const App = () => {
             id: Math.max(...contacts.map(contact=>contact.id)) + 1
         }
 
-        if(contacts.filter(contact => contact.name.toLowerCase() === newContact.name.toLowerCase())){
+        if(contacts.find(contact => contact.name.toLowerCase() === newContact.name.toLowerCase())){
+            
             if(window.confirm(`User ${newContact.name} already exists. Replace old number with new ?`)){
                 const person = contacts.find(n => n.name.toLowerCase() === newContact.name.toLowerCase())
-                console.log(person)
                 const updatedPerson = {...person, number:newContact.number}
                 console.log(updatedPerson);
                 update(person.id, updatedPerson).then(resp => {
@@ -59,6 +60,10 @@ const App = () => {
                 setName('')
                 setNumber('')
             })
+            setError(`User ${newContact.name} added to contacts`)
+            setTimeout(()=>{
+                setError(null)
+            }, 5000)
         }
     }
 
@@ -71,8 +76,6 @@ const App = () => {
             setContacts(contacts.filter(contact => contact.id !== id))
         }
     }
-
-    //update user
 
     const handleFormFocus = () =>{
         setShowAll(true)
@@ -95,6 +98,7 @@ const App = () => {
                 searchValue = {searchValue}
                 handleFocus = {handleSearchFocus}
             />
+            <Notification message={error} />
             <Form  
                 handleNameChange={handleNameChange} 
                 addContact={addContact} 

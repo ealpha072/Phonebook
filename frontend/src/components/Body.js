@@ -42,5 +42,17 @@ const Person = ({person, deleteUser}) => {
     )
 }
 
+const Notification = ({message}) => {
+    if(message === null){
+        return null
+    }
 
-export {Search, Form, Person}
+    return (
+        <div>
+            <p>{message}</p>
+        </div>
+    )
+}
+
+
+export {Search, Form, Person, Notification}
