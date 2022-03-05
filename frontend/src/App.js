@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import Hearder from './components/Header'
-import { getAll, create, deletePerson } from './services/contact'
+import { getAll, create, deletePerson, update } from './services/contact'
 import {Search, Form, Person} from './components/Body'
 
 const App = () => {
@@ -36,28 +36,43 @@ const App = () => {
     //onform submit
     const addContact = (e) => {
         e.preventDefault()
+
         const newContact = {
             name: newName,
             number:newNumber,
             id: Math.max(...contacts.map(contact=>contact.id)) + 1
         }
 
-        create(newContact).then(resp => {
-            setContacts(contacts.concat(resp.data))
-            setName('')
-            setNumber('')
-        })
+        if(contacts.filter(contact => contact.name.toLowerCase() === newContact.name.toLowerCase())){
+            if(window.confirm(`User ${newContact.name} already exists. Replace old number with new ?`)){
+                const person = contacts.find(n => n.name.toLowerCase() === newContact.name.toLowerCase())
+                console.log(person)
+                const updatedPerson = {...person, number:newContact.number}
+                console.log(updatedPerson);
+                update(person.id, updatedPerson).then(resp => {
+                    setContacts(contacts.map(contact => contact.id !== person.id ? contact : resp.data))
+                })
+            }
+        }else{
+            create(newContact).then(resp => {
+                setContacts(contacts.concat(resp.data))
+                setName('')
+                setNumber('')
+            })
+        }
     }
 
     //delete user
     const deleteUser = (id) =>{
         if(window.confirm('Are you sure you want to delete the user?')){
-            deletePerson(id).then(resp=>{
+            deletePerson(id).then(resp => {
                 alert(`User with id ${id} has been deleted successfully`)
             })
             setContacts(contacts.filter(contact => contact.id !== id))
         }
     }
+
+    //update user
 
     const handleFormFocus = () =>{
         setShowAll(true)
