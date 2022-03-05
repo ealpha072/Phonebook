@@ -1,22 +1,22 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Hearder from './components/Header'
-
-
+import { getAll, create, deletePerson } from './services/contact'
+import {Search, Form, Person} from './components/Body'
 
 const App = () => {
-    const [contacts, setContacts] = useState([
-        {id:1 ,name: 'Alpha', number:'0798975799'},
-        {id:2, name: 'Arto Hellas', number: '040-123456' },
-        {id:3, name: 'Ada Lovelace', number: '39-44-5323523'},
-        {id:4, name: 'Dan Abramov', number: '12-43-234345'},
-        {id:5, name: 'Mary Poppendieck', number: '39-23-6423122'}
-    ])
-
+    const [contacts, setContacts] = useState([])
+    const [showAll, setShowAll] = useState(true)
     const [newName, setName] = useState('')
     const [newNumber, setNumber] = useState('')
     const [searchValue, setSearchValue] = useState('')
 
-    
+    useEffect(()=>{
+        getAll().then(res => 
+            setContacts(res.data)    
+        )
+    }, [])
+
+    //handle input changes
     const handleNameChange = (event) => {
         event.preventDefault()
         setName(event.target.value)
@@ -27,6 +27,13 @@ const App = () => {
         setNumber(e.target.value)
     }
 
+    const handleSearchValueChange = (e) =>{
+        e.preventDefault()
+        setSearchValue(e.target.value)
+        setShowAll(false)   
+    }
+
+    //onform submit
     const addContact = (e) => {
         e.preventDefault()
         const newContact = {
@@ -35,27 +42,51 @@ const App = () => {
             id: Math.max(...contacts.map(contact=>contact.id)) + 1
         }
 
-        setContacts(contacts.concat(newContact))
-        setName('')
-        setNumber('')
+        create(newContact).then(resp => {
+            setContacts(contacts.concat(resp.data))
+            setName('')
+            setNumber('')
+        })
     }
 
-    const handleSearchValue = (e) =>{
-
+    //delete user
+    const deleteUser = (id) =>{
+        if(window.confirm('Are you sure you want to delete the user?')){
+            deletePerson(id).then(resp=>{
+                alert(`User with id ${id} has been deleted successfully`)
+            })
+            setContacts(contacts.filter(contact => contact.id !== id))
+        }
     }
+
+    const handleFormFocus = () =>{
+        setShowAll(true)
+        setSearchValue('')
+    }
+
+    const handleSearchFocus = () =>{
+        setShowAll(false)
+    }
+
+    const toShow = showAll ? contacts : contacts.filter(contact => 
+        contact.name.toLowerCase().includes(searchValue.toLowerCase())
+    )
 
     return (
         <>
             <Hearder />
             <Search 
-                value = {searchValue}
-                handleChange = {}
+                handleSearchChange = {handleSearchValueChange}
+                searchValue = {searchValue}
+                handleFocus = {handleSearchFocus}
             />
             <Form  
                 handleNameChange={handleNameChange} 
-                addContact={addContact} nameValue={newName} 
+                addContact={addContact} 
+                nameValue={newName} 
                 handleNumberChange={handleNumberChange} 
                 numberValue={newNumber} 
+                handleFocus = {handleFormFocus}
             />
 
             <div>
@@ -68,7 +99,7 @@ const App = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {contacts.map(contact => <Person key={contact.id} person={contact}/>)}
+                        {toShow.map(contact => <Person key={contact.id} person={contact} deleteUser ={()=>deleteUser(contact.id)} />)}
                     </tbody>
                 </table>
             </div>

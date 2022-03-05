@@ -1,16 +1,15 @@
-const Search = ({searchValue, handleChange, searchName}) => {
+const Search = (props) => {
     return (
         <div>
-            <form onSubmit={searchName}>
+            <form>
                 <label>Search name: </label>
-                <input placeholder="Search name" value={searchValue} onChange={handleChange} />
-                <button type="submit" >Search</button>
+                <input placeholder="Search name" value={props.searchValue} onChange={props.handleSearchChange} onFocus={props.handleFocus}/>
             </form>
         </div>
     )
 }
 
-const Form = ({addContact, handleNameChange, handleNumberChange, nameValue, numberValue}) =>{
+const Form = ({addContact, handleNameChange, handleNumberChange, nameValue, numberValue, handleFocus}) =>{
     return(
         <>
             <div className={"card"} >
@@ -18,7 +17,7 @@ const Form = ({addContact, handleNameChange, handleNumberChange, nameValue, numb
                     <form className={"form-inline"} onSubmit = {addContact} >
                         <div className={"form-group row"}>
                             <label className={"col-sm-3 col-form-label"}>Name</label>
-                            <input type="text" className={"form-control form-control-sm col-sm-6"} placeholder="Enter new contact name" onChange = {handleNameChange} value={nameValue} required/>
+                            <input type="text" className={"form-control form-control-sm col-sm-6"} placeholder="Enter new contact name" onChange = {handleNameChange} value={nameValue} onFocus={handleFocus} required/>
 
                             <label className={"col-sm-3 col-form-label"}>Number</label>
                             <input type="text" className={"form-control form-control-sm col-sm-6"} placeholder="Enter new contact number" onChange = {handleNumberChange} value={numberValue} required/>
@@ -32,15 +31,16 @@ const Form = ({addContact, handleNameChange, handleNumberChange, nameValue, numb
     )
 }
 
-const Person = ({person}) => {
+const Person = ({person, deleteUser}) => {
     return (
         <tr>
             <td>{person.id}</td>
             <td>{person.name}</td>
             <td>{person.number}</td>
+            <td><button onClick={deleteUser}>Delete</button></td>
         </tr>
     )
 }
 
 
-export 
+export {Search, Form, Person}
