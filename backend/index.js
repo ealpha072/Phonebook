@@ -1,6 +1,7 @@
-const { response } = require('express')
 const express = require('express')
 const app = express()
+
+app.use(express.json())
 
 let contacts = [
     { 
@@ -25,25 +26,56 @@ let contacts = [
     }
 ]
 
+const generateId = () => {
+    return Math.floor(Math.random) * 1000
+}
+
 app.get('/', (req, resp) => {
     resp.send('<h1>Hello world</h1>')
-})
-
-app.get('/info', (req,resp) =>{
-    console.log(req.headers)
-    resp.send(`<p>Phone book has ${contacts.length} people</p>`)
 })
 
 app.get('/contacts', (req, resp) => {
     resp.json(contacts)
 })
 
-//logic for when the id parameter is not found.
 app.get('/contacts/:id', (req, resp)=>{
     const id = Number(req.params.id)
     const contact = contacts.filter(x => x.id === id)
-    console.log(contact)
-    resp.json(contact)
+
+    if(contact){
+        resp.json(contact)
+    }else{
+        console.log('Error, resource is not availab;le')
+        resp.status(404).end()
+    }
+    
+})
+
+app.post('/contacts', (request, response) => {
+    const body = request.body
+
+    if(!body.name || !body.number || contacts.find(x => x.name === body.name)){
+        return response.status(400).json({
+            error: 'Missing either name or number or number alreay exists'
+        })
+    }
+
+
+
+    const contact = {
+        id: Math.floor(Math.random() * 10000),
+        name: body.name,
+        number: body.number
+    }
+
+    contacts = contacts.concat(contact)
+    response.json(contact)
+})
+
+app.delete('/contacts/:id', (request, response)=>{
+    const id = Number(request.params.id)
+    contacts = contacts.filter(x => x.id !== id)
+    response.status(204).end()
 })
 
 const PORT = 3001
