@@ -1,9 +1,22 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const mongoose  = require('mongoose')
 
 app.use(express.json())
 app.use(cors())
+
+const password = process.argv[2]
+const url = `mongodb+srv://alpha:${password}@cluster0.rypdi.mongodb.net/Contacts?retryWrites=true&w=majority`
+
+mongoose.connect(url)
+
+const contactsSchema = new mongoose.Schema({
+    name: String,
+    number: Number,
+})
+
+const Contact = mongoose.model('Contact', contactsSchema)
 
 let contacts = [
     { 
@@ -36,8 +49,10 @@ app.get('/', (req, resp) => {
     resp.send('<h1>Hello world</h1>')
 })
 
-app.get('/contacts', (req, resp) => {
-    resp.json(contacts)
+app.get('/contacts', (req, response) => {
+    Contact.find({}).then(results=>{
+        response.json(results)
+    })
 })
 
 app.get('/contacts/:id', (req, resp)=>{
@@ -53,6 +68,7 @@ app.get('/contacts/:id', (req, resp)=>{
 })
 
 app.post('/contacts', (request, response) => {
+    
     const body = request.body
 
     if(!body.name || !body.number || contacts.find(x => x.name === body.name)){
