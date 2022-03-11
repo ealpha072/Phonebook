@@ -2,6 +2,6 @@ POST http://localhost:3001/contacts
 Content-Type: application/json
 
 {
-    "name":"Mary Poppendieck",
-    "number":"34353345345"
+    "name":"Hitchens",
+    "number":"343587878"
 }

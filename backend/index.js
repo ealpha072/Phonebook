@@ -1,7 +1,9 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 let contacts = [
     { 
@@ -40,12 +42,11 @@ app.get('/contacts', (req, resp) => {
 
 app.get('/contacts/:id', (req, resp)=>{
     const id = Number(req.params.id)
-    const contact = contacts.filter(x => x.id === id)
+    const contact = contacts.find(x => x.id === id)
 
     if(contact){
         resp.json(contact)
     }else{
-        console.log('Error, resource is not availab;le')
         resp.status(404).end()
     }
     
@@ -56,11 +57,9 @@ app.post('/contacts', (request, response) => {
 
     if(!body.name || !body.number || contacts.find(x => x.name === body.name)){
         return response.status(400).json({
-            error: 'Missing either name or number or number alreay exists'
+            error: 'Missing either name or number or name alreay exists'
         })
     }
-
-
 
     const contact = {
         id: Math.floor(Math.random() * 10000),
@@ -78,7 +77,13 @@ app.delete('/contacts/:id', (request, response)=>{
     response.status(204).end()
 })
 
-const PORT = 3001
+const unKnownEndpoint = (request, response) => {
+    response.status(404).send({error:'Unknown request'})
+}
+
+app.use(unKnownEndpoint)
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT)
 
 console.log(`Server is running on port ${PORT}`)
