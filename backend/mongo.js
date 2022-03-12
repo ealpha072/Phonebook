@@ -17,17 +17,8 @@ contactsSchema.set('toJSON', {
         delete returnedObj.__v
     }
 })
+
 const Contact = mongoose.model('Contact', contactsSchema)
-
-/*const contact = new Contact({
-    name: "Ada Lovelace", 
-    number: '39-44-5323523'
-})
-
-contact.save().then(result => {
-    console.log('Saved new note')
-    mongoose.connection.close()
-})*/
 
 Contact.find({}).then(result=>{
     result.forEach(contact =>{

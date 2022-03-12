@@ -2,6 +2,6 @@ POST http://localhost:3001/contacts
 Content-Type: application/json
 
 {
-    "name":"Hitchens",
+    "name":"Darth Vader",
     "number":"343587878"
 }
