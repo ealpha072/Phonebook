@@ -109,12 +109,13 @@ const App = () => {
             />
 
             <div>
-                <table>
+                <table className={'table table-stripped table-dark mt-2'}>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>#ID</th>
                             <th>Name</th>
                             <th>Number</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
