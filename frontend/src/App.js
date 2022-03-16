@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react'
-import Hearder from './components/Header'
 import { getAll, create, deletePerson, update } from './services/contact'
 import {Search, Form, Person, Notification} from './components/Body'
 
@@ -92,7 +91,6 @@ const App = () => {
 
     return (
         <>
-            <Hearder />
             <Search 
                 handleSearchChange = {handleSearchValueChange}
                 searchValue = {searchValue}
@@ -108,20 +106,26 @@ const App = () => {
                 handleFocus = {handleFormFocus}
             />
 
-            <div>
-                <table className={'table table-stripped table-dark mt-2'}>
-                    <thead>
-                        <tr>
-                            <th>#ID</th>
-                            <th>Name</th>
-                            <th>Number</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {toShow.map(contact => <Person key={contact.id} person={contact} deleteUser ={()=>deleteUser(contact.id)} />)}
-                    </tbody>
-                </table>
+            <div className="card">
+                <div className='card-header'>
+                    Contacts List
+                </div>
+                <div className='card-body'>
+                    <table className={'table table-stripped table-dark mt-2'}>
+                        <thead>
+                            <tr>
+                                <th>#ID</th>
+                                <th>Name</th>
+                                <th>Number</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {toShow.map(contact => <Person key={contact.id} person={contact} deleteUser ={()=>deleteUser(contact.id)} />)}
+                        </tbody>
+                    </table>
+                </div>
+                
             </div>
         </>
     )

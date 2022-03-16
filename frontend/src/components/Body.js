@@ -5,7 +5,7 @@ const Search = (props) => {
         <label>Search name: </label>
         <input
           placeholder="Search name"
-          className={"form-control"}
+          className={"form-control ml-3"}
           value={props.searchValue}
           onChange={props.handleSearchChange}
           onFocus={props.handleFocus}
@@ -25,12 +25,12 @@ const Form = ({
 }) => {
   return (
     <>
-      <div className={"card"}>
-        <div className={"card-body"}>
-          <form className={""} onSubmit={addContact}>
-            <div className={"form-row"}>
-              <div className={"col-5"}>
-                <label className={"col-form-label"}>Name</label>
+      <div className="row">
+        <div className={"col-lg-12 col-md-12 col-sm-12 col-sm-12"}>
+          <form onSubmit={addContact}>
+            <div className={"form-group row"}>
+              <div className={"col d-flex"}>
+                <label className={"col-form-label mr-2"}>Name: </label>
                 <input
                   type="text"
                   className={"form-control form-control-md"}
@@ -41,8 +41,8 @@ const Form = ({
                   required
                 />
               </div>
-              <div className={"col-5"}>
-                <label className={"col-form-label"}>Number</label>
+              <div className={"col d-flex"}>
+                <label className={"col-form-label mr-2"}>Number:  </label>
                 <input
                   type="text"
                   className={"form-control form-control-md"}
@@ -52,10 +52,12 @@ const Form = ({
                   required
                 />                
               </div>
+              <div className="col">
+                <button type="submit" className={"btn btn-primary btn-sm mb-0"}>
+                  + Add
+                </button>
+              </div>
             </div>
-            <button type="submit" className={"btn btn-primary btn-sm mt-2"}>
-              Add
-            </button>
           </form>
         </div>
       </div>
