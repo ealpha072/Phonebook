@@ -1,11 +1,17 @@
-const mongoose = require('mongoose')
-
+import mongoose from "mongoose"
 
 const userSchema = new mongoose.Schema({
-  username:String,
-  name:String,
+  username:{
+    type:String,
+    unique:true,
+  },
+  email:{
+    type:String,
+    unique:true,
+    required:[true, "Cannot be blank"]
+  },
   passwordHash:String,
-  notes:[
+  contacts:[
     {
       type:mongoose.Schema.Types.ObjectId,
       ref: 'Contact'
@@ -22,6 +28,6 @@ userSchema.set('toJSON', {
   }
 })
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('users', userSchema)
 
-module.exports = User
+export default User

@@ -3,20 +3,25 @@
   "version": "1.0.0",
   "description": "A backend application for the frontend phonebook app",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon server.js",
     "lint": "eslint .",
     "test": "cross-env NODE_ENV=test jest --verbose runInBand"
   },
   "author": "Alpha",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "mongoose": "^6.2.5"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.5",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "eslint": "^8.11.0",

@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Poppins:wght@300&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Poppins;
+  background: #f6f5f7;
+}
+
+.root {
+  min-height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  width: 60%;
+  box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
+  border-radius: 10px;
+}
+
+div.side {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+  text-align: center;
+}
+
+.left h2 {
+  padding-top: 40px;
+  font-size: 3rem;
+  letter-spacing: 0.2rem
+}
+
+.left h6 {
+  padding-top: 20px;
+}
+
+.left button {
+  margin-bottom: 30px;
+}
+
+.socials {
+  width: 50%;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+
+.socials div i {
+  font-size: 1.2rem;
+  padding: 10px;
+  cursor: pointer;
+  color: darkgray;
+}
+
+.socials div i:hover {
+  color: #433b3b;
+  transform: scale(1.2);
+}
+
+form {
+  width: 85%;
+  margin-bottom: 10px;
+}
+
+form div {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+form .fa-envelope, form .fa-unlock, form .fa-user{
+  position: absolute;
+  left: 12px;
+}
+
+input {
+  width: 100%;
+  border: 1px solid lightgray;
+  background-color: lightgray;
+  border-radius: 6px;
+  font-size: 1rem;
+  padding-left: 34px;
+  padding-top: 14px;
+  padding-bottom: 12px;
+}
+
+input:focus {
+  outline: 0;
+}
+
+form div ::-webkit-input-placeholder {
+  color: #665d5d7a;
+  font-size: 0.8rem;
+}
+
+.button {
+  margin-top: 20px;
+  padding: 12px 45px;
+  border-radius: 24px;
+  cursor: pointer;
+  background-color: #FF4B2B;
+  border: 1px solid #FF4B2B;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+
+}
+
+.button:hover {
+  box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
+}
+
+.register {
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 20px;
+  display: none;
+  font-size: 1.5rem;
+}
+
+div .right {
+  justify-content: center;
+  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  color: white;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px
+}
+
+.right button {
+  background-color: inherit;
+  border: 1px solid white;
+}
+
+/*BOOTSTRAP MANIPULATED STYLES*/
+.card-header{
+  display:flex;
+  justify-content: space-between;
+}
+
+.card{
+  padding:0
+}
+
+.container{
+  margin-top:10px;
+}
+
+
+@media screen and (max-width:580px) {
+  .app-container {
+    width: 90%;
+  }
+
+  div.right {
+    display: none;
+  }
+
+  div.side {
+    width: 80%
+  }
+
+  form {
+    width: 80%
+  }
+
+  .register {
+    display: unset;
+  }
+}
+
+@media screen and (min-width:581px) and (max-width:768px) {
+  .app-container {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width:767px) and (max-width:950px) {
+  .app-container {
+    width: 80%;
+  }
+}

@@ -8,7 +8,7 @@ const contactsSchema = new mongoose.Schema({
   },
   number: {
     type: Number,
-    minlength: 5,
+    minlength: 10,
     required: true,
   },
 })
@@ -21,4 +21,6 @@ contactsSchema.set('toJSON', {
   },
 })
 
-module.exports = mongoose.model('Contact', contactsSchema)
+const Contact = mongoose.model('Contact', contactsSchema)
+
+export default Contact
